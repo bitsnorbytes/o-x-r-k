@@ -6,10 +6,12 @@
 
 main {
     flex: 1;
+    background-color: #110808;
+    color: #707070;
 }
 
 .sidebar {
-    background-image: linear-gradient(180deg, hwb(286 40% 3%) 0%, #ff698a 70%);
+    background-color: #0e0707;
 }
 
 .top-row {
