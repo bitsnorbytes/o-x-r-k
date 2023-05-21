@@ -22,12 +22,16 @@ jobs:
         dotnet-version: 7.0.x
     - name: Restore dependencies
       run: dotnet restore
+      working-directory: screen
     - name: Build
       run: dotnet build --no-restore
       working-directory: screen
     - name: Test
       run: dotnet test --no-build --verbosity normal
       working-directory: screen
+    - name: Restore dependencies
+      run: dotnet restore
+      working-directory: darkroom
     - name: Build
       run: dotnet build --no-restore
       working-directory: darkroom
