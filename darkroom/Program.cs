@@ -1,4 +1,5 @@
 using Supabase;
+using Newtonsoft.Json;
 using darkRoom.Services;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddControllers().AddNewtonsoftJson();
 var url = builder.Configuration["supabase:url"];
 var key = builder.Configuration["supabase:key"];
 var options = new SupabaseOptions
@@ -34,5 +36,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+
 
 app.Run();

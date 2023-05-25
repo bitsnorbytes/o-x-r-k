@@ -1,12 +1,15 @@
-namespace darkRoom.Models;
-// Given the following Model representing the Supabase Database (Message.cs)
 using Postgrest.Attributes;
 using Postgrest.Models;
+using System;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+namespace darkRoom.Models;
+
 
 [Table("Genre")]
 public class Genre : BaseModel
 {
-    [PrimaryKey("id")]
+    [PrimaryKey("id",false)]
     public int Id { get; set; }
 
     [Column("name")]
