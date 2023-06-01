@@ -1,9 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using Postgrest.Attributes;
-using Postgrest.Models;
-using Supabase;
-using System;
-using System.Collections.Generic;
 namespace Scullery.Data {
 public class CinemacatalogingContext : DbContext
 {
