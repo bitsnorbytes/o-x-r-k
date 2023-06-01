@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 IConfiguration config = new ConfigurationBuilder()
-    .AddJsonFile("appsettings.json")
+    .AddJsonFile("appsettings.local.json")
     .AddEnvironmentVariables()
     .Build();
 var connectionString = config.GetValue<string>("Default:ConnectionString");
