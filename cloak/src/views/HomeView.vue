@@ -1,9 +1,8 @@
 <script setup lang="ts">
+import LandingPage from '@/components/LandingPage.vue'
 </script>
-
 <template>
-    <div class="bg-oxrk-black w-11/12 min-h-screen">asa</div>
+  <LandingPage />
 </template>
-
 <style scoped>
 </style>

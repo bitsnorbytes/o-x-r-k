@@ -22,19 +22,10 @@ jobs:
         dotnet-version: 8.0.x
     - name: Restore dependencies
       run: dotnet restore
-      working-directory: screen
+      working-directory: scullery
     - name: Build
       run: dotnet build --no-restore
-      working-directory: screen
+      working-directory: scullery
     - name: Test
       run: dotnet test --no-build --verbosity normal
-      working-directory: screen
-    - name: Restore dependencies
-      run: dotnet restore
-      working-directory: darkroom
-    - name: Build
-      run: dotnet build --no-restore
-      working-directory: darkroom
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
-      working-directory: darkroom
+      working-directory: scullery
