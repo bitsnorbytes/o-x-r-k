@@ -1,20 +1,21 @@
-using Scullery.Models;
 using RestSharp;
 using RestSharp.Authenticators.OAuth2;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Microsoft.Extensions.Configuration;
 
 namespace Scullery.Services
 {
     class SculleryX
     {
-        private string _baseURL;
-        private string _token;
-        public SculleryX(string baseURL, string token)
+        private string _baseURL { get; set;}
+        private string _token { get; set;}
+        public SculleryX()
         {
-            _baseURL = baseURL;
-            _token = token;
+           IConfiguration config = new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .AddUserSecrets<Program>()
+    .Build();
+    _baseURL = config.GetValue<string>("TMDB:baseURL");
+_token = config.GetValue<string>("TMDB:BearerToken");
         }
         public async void FetchMovieDetailsTMDB(string path)
         {
