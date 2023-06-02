@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using Scullery.Data;
+using Scullery.Models;
 
 #nullable disable
 
 namespace scullery.Migrations
 {
-    [DbContext(typeof(CinemacatalogingContext))]
+    [DbContext(typeof(CinemaCatalogingContext))]
     [Migration("20230601152200_InitialCreate")]
     partial class InitialCreate
     {

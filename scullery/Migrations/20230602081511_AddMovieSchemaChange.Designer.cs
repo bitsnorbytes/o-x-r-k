@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Scullery.Models;
@@ -11,9 +12,11 @@ using Scullery.Models;
 namespace scullery.Migrations
 {
     [DbContext(typeof(CinemaCatalogingContext))]
-    partial class CinemaCatalogingContextModelSnapshot : ModelSnapshot
+    [Migration("20230602081511_AddMovieSchemaChange")]
+    partial class AddMovieSchemaChange
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -120,11 +123,6 @@ namespace scullery.Migrations
                     b.Property<DateOnly>("ReleaseDate")
                         .HasColumnType("date")
                         .HasColumnName("release_date");
-
-                    b.Property<string>("RunningTimeInMinutes")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("running_time_in_mins");
 
                     b.Property<string>("Title")
                         .IsRequired()
