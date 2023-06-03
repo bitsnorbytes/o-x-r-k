@@ -27,6 +27,7 @@ using IHost host = Host.CreateDefaultBuilder(args)
     })
     .Build();
 var SculleryService = host.Services.GetService<SculleryX>();
-var path = "/3/movie/788929?language=en-US";
-SculleryService.FetchMovieDetailsTMDB(path);
+var path = "/4/movie/788929";
+var prodlistpath = "/4/list/8253714";
+SculleryService.FetchProdListTMDB(prodlistpath);
 await host.RunAsync();
