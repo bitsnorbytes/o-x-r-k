@@ -8,21 +8,21 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-IConfiguration config = new ConfigurationBuilder()
+IConfiguration configurationRoot = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
     .AddUserSecrets<Program>()
     .Build();
-
 var conStrBuilder = new NpgsqlConnectionStringBuilder();
-conStrBuilder.Password = config.GetValue<string>("Database:Password");
-conStrBuilder.Host = config.GetValue<string>("Database:Server");
-conStrBuilder.Username = config.GetValue<string>("Database:User");
-conStrBuilder.Database = config.GetValue<string>("Database:Name");
-var connectionString = config.GetValue<string>("Default:ConnectionString");
+conStrBuilder.Password = configurationRoot.GetValue<string>("Database:Password");
+conStrBuilder.Host = configurationRoot.GetValue<string>("Database:Server");
+conStrBuilder.Username = configurationRoot.GetValue<string>("Database:User");
+conStrBuilder.Database = configurationRoot.GetValue<string>("Database:Name");
+var connectionString = configurationRoot.GetValue<string>("Default:ConnectionString");
 using IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
     {
         services.AddDbContext<CinemaCatalogingContext>(options => options.UseNpgsql(connectionString));
+        services.AddSingleton<IConfiguration>(configurationRoot);
         services.AddSingleton<SculleryX>();
     })
     .Build();
