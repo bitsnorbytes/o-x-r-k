@@ -7,7 +7,7 @@ namespace Scullery.Models
         public int Id { get; set; }
         [Column("name")]
         public string Name { get; set; }
-        [Column("genre_id")]
+        [Column("mediatype_id")]
         public int MediaTypeId { get; set; }
         public CinemaCatalogue Movies { get; set; }
     }

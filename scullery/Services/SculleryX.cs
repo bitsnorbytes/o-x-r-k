@@ -1,7 +1,7 @@
 using RestSharp;
 using RestSharp.Authenticators.OAuth2;
 using Microsoft.Extensions.Configuration;
-using System.Text.Json;
+using Scullery.Models;
 
 namespace Scullery.Services
 {
@@ -26,8 +26,6 @@ namespace Scullery.Services
                 movieIdList.Add(item.Id);
             }
             return movieIdList;
-            // TMDBMovieList? movieList = 
-            //     JsonSerializer.Deserialize<TMDBMovieList>(response.Content);
         }
         public async void FetchMovieDetailsTMDB(string path)
         {
@@ -37,10 +35,8 @@ namespace Scullery.Services
                 Authenticator = authenticator
             };
             var client = new RestClient(options);
-            var request = new RestRequest(path, Method.Get);
-            request.AddHeader("accept", "application/json");
-            var response = await client.GetAsync(request);
-            Console.WriteLine(response.Content);
+            var response = await client.GetJsonAsync<CinemaCatalogue>(path);
+            Console.WriteLine(response.Title);
             
         }
     }

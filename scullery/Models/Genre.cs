@@ -1,13 +1,14 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 namespace Scullery.Models
 {
     public class Genre
     {
+        [JsonPropertyName("id")]
         public int Id { get; set; }
         [Column("name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
-        [Column("genre_id")]
-        public int GenreId { get; set; }
         public CinemaCatalogue Movies { get; set; }
 
     }
