@@ -1,6 +1,7 @@
 using RestSharp;
 using RestSharp.Authenticators.OAuth2;
 using Microsoft.Extensions.Configuration;
+using System.Text.Json;
 
 namespace Scullery.Services
 {
@@ -18,10 +19,7 @@ namespace Scullery.Services
                 Authenticator = authenticator
             };
             var client = new RestClient(options);
-            var request = new RestRequest(path, Method.Get);
-            request.AddHeader("accept", "application/json");
-            var response = await client.GetAsync(request);
-            Console.WriteLine(response.Content);
+            var response = await client.GetJsonAsync<TMDBMovieList>(path);
         }
         public async void FetchMovieDetailsTMDB(string path)
         {
