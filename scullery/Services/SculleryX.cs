@@ -36,7 +36,6 @@ namespace Scullery.Services
             };
             var client = new RestClient(options);
             var response = await client.GetJsonAsync<CinemaCatalogue>(path);
-            Console.WriteLine(response.Title);
             
         }
     }
