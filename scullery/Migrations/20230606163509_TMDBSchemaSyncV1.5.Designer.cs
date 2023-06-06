@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Scullery.Models;
@@ -11,9 +12,11 @@ using Scullery.Models;
 namespace scullery.Migrations
 {
     [DbContext(typeof(CinemaCatalogingContext))]
-    partial class CinemaCatalogingContextModelSnapshot : ModelSnapshot
+    [Migration("20230606163509_TMDBSchemaSyncV1.5")]
+    partial class TMDBSchemaSyncV15
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

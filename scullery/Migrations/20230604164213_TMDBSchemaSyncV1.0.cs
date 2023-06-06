@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -6,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace scullery.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class TMDBSchemaSyncV10 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,8 +18,17 @@ namespace scullery.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    MovieId = table.Column<int>(type: "integer", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false)
+                    title = table.Column<string>(type: "text", nullable: false),
+                    adult = table.Column<bool>(type: "boolean", nullable: false),
+                    backdrop_path = table.Column<string>(type: "text", nullable: false),
+                    poster_path = table.Column<string>(type: "text", nullable: false),
+                    release_date = table.Column<DateOnly>(type: "date", nullable: false),
+                    overview = table.Column<string>(type: "text", nullable: false),
+                    original_title = table.Column<string>(type: "text", nullable: false),
+                    original_language = table.Column<string>(type: "text", nullable: false),
+                    runtime = table.Column<int>(type: "integer", nullable: false),
+                    media_type = table.Column<string>(type: "text", nullable: false),
+                    imdb_id = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -31,25 +41,24 @@ namespace scullery.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    GenreId = table.Column<int>(type: "integer", nullable: false),
-                    MovieId = table.Column<int>(type: "integer", nullable: false)
+                    name = table.Column<string>(type: "text", nullable: false),
+                    MoviesId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Genres", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Genres_Movies_MovieId",
-                        column: x => x.MovieId,
+                        name: "FK_Genres_Movies_MoviesId",
+                        column: x => x.MoviesId,
                         principalTable: "Movies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Genres_MovieId",
+                name: "IX_Genres_MoviesId",
                 table: "Genres",
-                column: "MovieId");
+                column: "MoviesId");
         }
 
         /// <inheritdoc />

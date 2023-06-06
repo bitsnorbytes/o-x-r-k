@@ -5,25 +5,25 @@
 namespace scullery.Migrations
 {
     /// <inheritdoc />
-    public partial class AddedRunTimeInMins : Migration
+    public partial class TMDBSchemaSyncV11 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "running_time_in_mins",
-                table: "Movies",
-                type: "text",
+            migrationBuilder.AddColumn<int>(
+                name: "GenreId",
+                table: "Genres",
+                type: "integer",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: 0);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "running_time_in_mins",
-                table: "Movies");
+                name: "GenreId",
+                table: "Genres");
         }
     }
 }

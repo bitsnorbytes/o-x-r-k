@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Scullery.Models;
@@ -11,9 +12,11 @@ using Scullery.Models;
 namespace scullery.Migrations
 {
     [DbContext(typeof(CinemaCatalogingContext))]
-    partial class CinemaCatalogingContextModelSnapshot : ModelSnapshot
+    [Migration("20230604164516_TMDBSchemaSyncV1.1")]
+    partial class TMDBSchemaSyncV11
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,6 +44,12 @@ namespace scullery.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("adult")
                         .HasAnnotation("Relational:JsonPropertyName", "adult");
+
+                    b.Property<string>("MediaType")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("media_type")
+                        .HasAnnotation("Relational:JsonPropertyName", "media_type");
 
                     b.Property<string>("OriginalLanguage")
                         .IsRequired()
@@ -95,20 +104,19 @@ namespace scullery.Migrations
 
             modelBuilder.Entity("Scullery.Models.Genre", b =>
                 {
-                    b.Property<int>("GenreId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasColumnName("genre_id");
+                        .HasColumnName("Id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("GenreId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CinemaCatalogueId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Id")
+                    b.Property<int>("GenreId")
                         .HasColumnType("integer")
-                        .HasColumnName("Id")
                         .HasAnnotation("Relational:JsonPropertyName", "id");
+
+                    b.Property<int>("MoviesId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -116,9 +124,9 @@ namespace scullery.Migrations
                         .HasColumnName("name")
                         .HasAnnotation("Relational:JsonPropertyName", "name");
 
-                    b.HasKey("GenreId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("CinemaCatalogueId");
+                    b.HasIndex("MoviesId");
 
                     b.ToTable("Genres");
 
@@ -127,9 +135,13 @@ namespace scullery.Migrations
 
             modelBuilder.Entity("Scullery.Models.Genre", b =>
                 {
-                    b.HasOne("Scullery.Models.CinemaCatalogue", null)
+                    b.HasOne("Scullery.Models.CinemaCatalogue", "Movies")
                         .WithMany("Genres")
-                        .HasForeignKey("CinemaCatalogueId");
+                        .HasForeignKey("MoviesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Movies");
                 });
 
             modelBuilder.Entity("Scullery.Models.CinemaCatalogue", b =>

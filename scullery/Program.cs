@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using Scullery.Services;
+﻿using Scullery.Services;
 using Scullery.Models;
 using Npgsql;
 using Microsoft.Extensions.Hosting;
@@ -18,21 +16,20 @@ conStrBuilder.Password = configurationRoot.GetValue<string>("Database:Password")
 conStrBuilder.Host = configurationRoot.GetValue<string>("Database:Server");
 conStrBuilder.Username = configurationRoot.GetValue<string>("Database:User");
 conStrBuilder.Database = configurationRoot.GetValue<string>("Database:Name");
-var connectionString = configurationRoot.GetValue<string>("Default:ConnectionString");
 using IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
     {
-        services.AddDbContext<CinemaCatalogingContext>(options => options.UseNpgsql(connectionString));
+        services.AddDbContext<CinemaCatalogingContext>(options => options.UseNpgsql(conStrBuilder.ConnectionString));
         services.AddSingleton<IConfiguration>(configurationRoot);
-        services.AddSingleton<SculleryX>();
+        services.AddScoped<SculleryX>();
     })
     .Build();
 var SculleryService = host.Services.GetService<SculleryX>();
-var path = "/3/movie/";
-var prodlistpath = "/3/list/8253714";
-var MovieIdList = await SculleryService.FetchProdListTMDB(prodlistpath);
-foreach (var MovieId in MovieIdList) {
-SculleryService.FetchMovieDetailsTMDB(path + MovieId);
+// var GenreList = await SculleryService.FetchGenreList("/3/genre/movie/list");
+var MovieIdList = await SculleryService.FetchProdListTMDB("/3/list/8253714");
+foreach (var Movie in MovieIdList.Items)
+{
+    var MovieDetails = await SculleryService.FetchMovieDetailsTMDB("/3/movie/" + Movie.Id);
+    await SculleryService.SeedDatabase(MovieDetails);
 }
-
 await host.RunAsync();

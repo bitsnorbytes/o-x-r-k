@@ -12,8 +12,8 @@ using Scullery.Models;
 namespace scullery.Migrations
 {
     [DbContext(typeof(CinemaCatalogingContext))]
-    [Migration("20230604085950_TMDBSchemaSync")]
-    partial class TMDBSchemaSync
+    [Migration("20230604164725_TMDBSchemaSyncV1.2")]
+    partial class TMDBSchemaSyncV12
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,6 +44,12 @@ namespace scullery.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("adult")
                         .HasAnnotation("Relational:JsonPropertyName", "adult");
+
+                    b.Property<string>("MediaType")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("media_type")
+                        .HasAnnotation("Relational:JsonPropertyName", "media_type");
 
                     b.Property<string>("OriginalLanguage")
                         .IsRequired()
@@ -101,9 +107,14 @@ namespace scullery.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasAnnotation("Relational:JsonPropertyName", "id");
+                        .HasColumnName("Id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("GenreId")
+                        .HasColumnType("integer")
+                        .HasColumnName("genre_id")
+                        .HasAnnotation("Relational:JsonPropertyName", "id");
 
                     b.Property<int>("MoviesId")
                         .HasColumnType("integer");
@@ -123,33 +134,6 @@ namespace scullery.Migrations
                     b.HasAnnotation("Relational:JsonPropertyName", "genres");
                 });
 
-            modelBuilder.Entity("Scullery.Models.MediaType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("MediaTypeId")
-                        .HasColumnType("integer")
-                        .HasColumnName("mediatype_id");
-
-                    b.Property<int>("MoviesId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("name");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MoviesId");
-
-                    b.ToTable("MediaTypes");
-                });
-
             modelBuilder.Entity("Scullery.Models.Genre", b =>
                 {
                     b.HasOne("Scullery.Models.CinemaCatalogue", "Movies")
@@ -161,22 +145,9 @@ namespace scullery.Migrations
                     b.Navigation("Movies");
                 });
 
-            modelBuilder.Entity("Scullery.Models.MediaType", b =>
-                {
-                    b.HasOne("Scullery.Models.CinemaCatalogue", "Movies")
-                        .WithMany("MediaTypes")
-                        .HasForeignKey("MoviesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Movies");
-                });
-
             modelBuilder.Entity("Scullery.Models.CinemaCatalogue", b =>
                 {
                     b.Navigation("Genres");
-
-                    b.Navigation("MediaTypes");
                 });
 #pragma warning restore 612, 618
         }

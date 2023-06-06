@@ -7,12 +7,14 @@ namespace Scullery.Services
 {
     class SculleryX
     {
-        private List<int> movieIdList { get; set;}
         private readonly IConfiguration _configuration;
-        public SculleryX(IConfiguration configuration) {
-           _configuration = configuration;
+        private readonly CinemaCatalogingContext _cinemaCatalogingContext;
+        public SculleryX(IConfiguration configuration, CinemaCatalogingContext cinemaCatalogingContext)
+        {
+            _configuration = configuration;
+            _cinemaCatalogingContext = cinemaCatalogingContext;
         }
-        public async Task<List<int>> FetchProdListTMDB(string path)
+        RestClient Authenticator()
         {
             var authenticator = new OAuth2AuthorizationRequestHeaderAuthenticator(_configuration.GetValue<string>("TMDB:BearerToken"), "Bearer");
             var options = new RestClientOptions(_configuration.GetValue<string>("TMDB:baseURL"))
@@ -20,23 +22,45 @@ namespace Scullery.Services
                 Authenticator = authenticator
             };
             var client = new RestClient(options);
-            var response = await client.GetJsonAsync<TMDBMovieList>(path);
-            movieIdList = new List<int>();
-            foreach(var item in response.Items) {
-                movieIdList.Add(item.Id);
-            }
-            return movieIdList;
+            return client;
         }
-        public async void FetchMovieDetailsTMDB(string path)
+        public async Task<TMDBMovieList> FetchProdListTMDB(string path)
         {
-            var authenticator = new OAuth2AuthorizationRequestHeaderAuthenticator(_configuration.GetValue<string>("TMDB:BearerToken"), "Bearer");
-            var options = new RestClientOptions(_configuration.GetValue<string>("TMDB:baseURL"))
-            {
-                Authenticator = authenticator
-            };
-            var client = new RestClient(options);
-            var response = await client.GetJsonAsync<CinemaCatalogue>(path);
-            
+
+            var response = await Authenticator().GetJsonAsync<TMDBMovieList>(path);
+            return response;
+        }
+        public async Task<CinemaCatalogue> FetchMovieDetailsTMDB(string path)
+        {
+            var response = await Authenticator().GetJsonAsync<CinemaCatalogue>(path);
+            return response;
+
+        }
+        public async Task<TMDBGenreList> FetchGenreList(string path)
+        {
+            var response = await Authenticator().GetJsonAsync<TMDBGenreList>(path);
+            return response;
+        }
+        public async Task SeedDatabase(CinemaCatalogue movieDetails)
+        {
+            _cinemaCatalogingContext.Movies.Add(
+                new CinemaCatalogue
+                {
+                    Id = movieDetails.Id,
+                    BackdropPath = movieDetails.BackdropPath,
+                    Genres = movieDetails.Genres,
+                    imdbId = movieDetails.imdbId,
+                    IsAdult = movieDetails.IsAdult,
+                    OriginalLanguage = movieDetails.OriginalLanguage,
+                    OriginalTitle = movieDetails.OriginalTitle,
+                    Overview = movieDetails.Overview,
+                    PosterPath = movieDetails.PosterPath,
+                    ReleaseDate = movieDetails.ReleaseDate,
+                    Title = movieDetails.Title,
+                    RunTimeInMinutes = movieDetails.RunTimeInMinutes
+                }
+            );
+            await _cinemaCatalogingContext.SaveChangesAsync();
         }
     }
 }
