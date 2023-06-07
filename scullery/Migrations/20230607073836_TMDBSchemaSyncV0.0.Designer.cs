@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Scullery.Models;
@@ -12,9 +13,11 @@ using Scullery.Models;
 namespace scullery.Migrations
 {
     [DbContext(typeof(CinemaCatalogingContext))]
-    partial class CinemaCatalogingContextModelSnapshot : ModelSnapshot
+    [Migration("20230607073836_TMDBSchemaSyncV0.0")]
+    partial class TMDBSchemaSyncV00
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -133,39 +136,6 @@ namespace scullery.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Genres");
-                });
-
-            modelBuilder.Entity("Scullery.Models.Language", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("EnglishName")
-                        .HasColumnType("text")
-                        .HasColumnName("english_name")
-                        .HasAnnotation("Relational:JsonPropertyName", "english_name");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text")
-                        .HasColumnName("name")
-                        .HasAnnotation("Relational:JsonPropertyName", "name");
-
-                    b.Property<string>("iso639Code")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("iso_639_1")
-                        .HasAnnotation("Relational:JsonPropertyName", "iso_639_1");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("iso639Code")
-                        .IsUnique();
-
-                    b.ToTable("Languages");
                 });
 #pragma warning restore 612, 618
         }

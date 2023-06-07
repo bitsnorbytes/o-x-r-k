@@ -1,14 +1,12 @@
 using System.ComponentModel.DataAnnotations.Schema;
 namespace Scullery.Models
 {
-    public class Genre
+   public class Genre
     {
+        [Column("id")]
         public int Id { get; set; }
         [Column("name")]
-        public string Name { get; set; }
-        [Column("genre_id")]
-        public int GenreId { get; set; }
-        public CinemaCatalogue Movies { get; set; }
+        public string? Name { get; set; }
 
     }
 }
