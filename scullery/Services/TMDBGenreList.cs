@@ -5,7 +5,7 @@ namespace Scullery.Services
     public class TMDBGenreList
     {
         [JsonPropertyName("genres")]
-        public IEnumerable<TMDBGenre> Genres { get; set; } = new List<TMDBGenre>();
+        public List<TMDBGenre> Genres { get; set; } = new List<TMDBGenre>();
     }
    public class TMDBGenre
     {

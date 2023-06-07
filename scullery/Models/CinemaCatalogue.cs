@@ -12,6 +12,12 @@ public class CinemaCatalogue
         [Column("adult")]
         [JsonPropertyName("adult")]
         public bool IsAdult { get; set; }
+        [Column("secure_base_image_URL")]
+        public string SecureBaseImageURL { get; set; }
+        [Column("poster_sizes")]
+        public List<string> PosterSizes { get; set; } = new List<string>();
+        [Column("backdrop_sizes")]
+        public List<string> BackdropSizes { get; set; } = new List<string>();
         [Column("backdrop_path")]
         [JsonPropertyName("backdrop_path")]
         public string BackdropPath { get; set; }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -33,6 +34,9 @@ namespace scullery.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     title = table.Column<string>(type: "text", nullable: false),
                     adult = table.Column<bool>(type: "boolean", nullable: false),
+                    secure_base_image_URL = table.Column<string>(type: "text", nullable: false),
+                    poster_sizes = table.Column<List<string>>(type: "text[]", nullable: false),
+                    backdrop_sizes = table.Column<List<string>>(type: "text[]", nullable: false),
                     backdrop_path = table.Column<string>(type: "text", nullable: false),
                     poster_path = table.Column<string>(type: "text", nullable: false),
                     release_date = table.Column<DateOnly>(type: "date", nullable: false),

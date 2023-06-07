@@ -25,16 +25,57 @@ using IHost host = Host.CreateDefaultBuilder(args)
     })
     .Build();
 var SculleryService = host.Services.GetService<SculleryX>();
-var GenreList = await SculleryService.FetchGenreList("/3/genre/movie/list");
-var MovieIdList = await SculleryService.FetchProdListTMDB("/3/list/8253714");
-foreach (var Genre in GenreList.Genres)
+async Task seedDatabaseAsSync()
 {
-    await SculleryService.SeedGenre(Genre);
+    await UpdateGenreAsSync();
+    await UpdateLanguageAsSync();
+    await UpdateMoviesAsSync();
+}
+async Task UpdateGenreAsSync()
+{
+    var GenreList = await SculleryService.FetchGenreList();
+    foreach (var _genre in GenreList.Genres)
+    {
+        await SculleryService.SeedGenreAsSync(_genre);
+    }
+}
+async Task UpdateLanguageAsSync()
+{
+    var TMDBLanguageConfiguration = await SculleryService.FetchLanguageConfigurationTMDB();
+    foreach (var _language in TMDBLanguageConfiguration)
+    {
+        await SculleryService.SeedLanguageAsSync(_language);
+    }
+}
+async Task UpdateMoviesAsSync()
+{
+    var MovieIdList = await SculleryService.FetchProdListTMDB();
+    var TMDBImageConfiguration = await SculleryService.FetchImageConfigurationTMDB();
+    foreach (var Movie in MovieIdList.Items)
+    {
+        var MovieDetails = await SculleryService.FetchMovieDetailsTMDB(Movie.Id);
+        await SculleryService.SeedMovieAsSync(MovieDetails, Movie.GenreIds, Movie.MediaType, TMDBImageConfiguration.Images.BackdropSizes, TMDBImageConfiguration.Images.PosterSizes,TMDBImageConfiguration.Images.SecureBaseImageURL);
+    }
+}
+if(args.Length == 0) {
+    await UpdateMoviesAsSync();
+} else {
+    switch(args[0]) {
+        case "SeedDb": 
+        await seedDatabaseAsSync();
+        break;
+        case "SeedGenre": 
+        await UpdateGenreAsSync();
+        break;
+        case "SeedLanguage":
+        await UpdateLanguageAsSync();
+        break;
+        case "SeedMovie":
+        await UpdateMoviesAsSync();
+        break;
+        default :
+        Console.WriteLine("Cannot Recognize Argument. Use 'SeedDb' to seed entire Database");
+        break;
+    }
 }
 
-foreach (var Movie in MovieIdList.Items)
-{
-    var MovieDetails = await SculleryService.FetchMovieDetailsTMDB("/3/movie/" + Movie.Id);
-    await SculleryService.SeedMovie(MovieDetails, Movie.GenreIds, Movie.MediaType);
-}
-await host.RunAsync();
