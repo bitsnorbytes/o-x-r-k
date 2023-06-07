@@ -41,14 +41,26 @@ namespace Scullery.Services
             var response = await Authenticator().GetJsonAsync<TMDBGenreList>(path);
             return response;
         }
-        public async Task SeedDatabase(CinemaCatalogue movieDetails)
+        public async Task SeedGenre(TMDBGenre genre)
         {
-            _cinemaCatalogingContext.Movies.Add(
+            await _cinemaCatalogingContext.Genres.AddAsync(
+                new Genre
+                {
+                    Id = genre.Id,
+                    Name = genre.Name
+                }
+            );
+            await _cinemaCatalogingContext.SaveChangesAsync();
+        }
+        public async Task SeedMovie(CinemaCatalogue movieDetails, int[] genreIds, string mediaType)
+        {
+           await _cinemaCatalogingContext.Movies.AddAsync(
                 new CinemaCatalogue
                 {
                     Id = movieDetails.Id,
                     BackdropPath = movieDetails.BackdropPath,
-                    Genres = movieDetails.Genres,
+                    GenreIds = genreIds,
+                    MediaType = mediaType,
                     imdbId = movieDetails.imdbId,
                     IsAdult = movieDetails.IsAdult,
                     OriginalLanguage = movieDetails.OriginalLanguage,

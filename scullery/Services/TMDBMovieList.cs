@@ -19,5 +19,9 @@ namespace Scullery.Services
      {
         [JsonPropertyName("id")]
         public int Id { get; set; }
+        [JsonPropertyName("genre_ids")]
+        public int[]? GenreIds { get; set; }
+        [JsonPropertyName("media_type")]
+        public string? MediaType { get; set; }
     }
 }

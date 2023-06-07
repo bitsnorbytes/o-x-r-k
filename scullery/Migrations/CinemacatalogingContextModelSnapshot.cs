@@ -37,10 +37,18 @@ namespace scullery.Migrations
                         .HasColumnName("backdrop_path")
                         .HasAnnotation("Relational:JsonPropertyName", "backdrop_path");
 
+                    b.Property<int[]>("GenreIds")
+                        .HasColumnType("integer[]")
+                        .HasColumnName("genre_ids");
+
                     b.Property<bool>("IsAdult")
                         .HasColumnType("boolean")
                         .HasColumnName("adult")
                         .HasAnnotation("Relational:JsonPropertyName", "adult");
+
+                    b.Property<string>("MediaType")
+                        .HasColumnType("text")
+                        .HasColumnName("media_type");
 
                     b.Property<string>("OriginalLanguage")
                         .IsRequired()
@@ -95,46 +103,20 @@ namespace scullery.Migrations
 
             modelBuilder.Entity("Scullery.Models.Genre", b =>
                 {
-                    b.Property<int>("GenreId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasColumnName("genre_id");
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("GenreId"));
-
-                    b.Property<int?>("CinemaCatalogueId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("integer")
-                        .HasColumnName("Id")
-                        .HasAnnotation("Relational:JsonPropertyName", "id");
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("text")
-                        .HasColumnName("name")
-                        .HasAnnotation("Relational:JsonPropertyName", "name");
+                        .HasColumnName("name");
 
-                    b.HasKey("GenreId");
-
-                    b.HasIndex("CinemaCatalogueId");
+                    b.HasKey("Id");
 
                     b.ToTable("Genres");
-
-                    b.HasAnnotation("Relational:JsonPropertyName", "genres");
-                });
-
-            modelBuilder.Entity("Scullery.Models.Genre", b =>
-                {
-                    b.HasOne("Scullery.Models.CinemaCatalogue", null)
-                        .WithMany("Genres")
-                        .HasForeignKey("CinemaCatalogueId");
-                });
-
-            modelBuilder.Entity("Scullery.Models.CinemaCatalogue", b =>
-                {
-                    b.Navigation("Genres");
                 });
 #pragma warning restore 612, 618
         }

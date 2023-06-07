@@ -7,11 +7,24 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace scullery.Migrations
 {
     /// <inheritdoc />
-    public partial class TMDBSchemaSyncV10 : Migration
+    public partial class TMDBSchemaSyncV00 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Genres",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    name = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Genres", x => x.id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Movies",
                 columns: table => new
@@ -27,38 +40,14 @@ namespace scullery.Migrations
                     original_title = table.Column<string>(type: "text", nullable: false),
                     original_language = table.Column<string>(type: "text", nullable: false),
                     runtime = table.Column<int>(type: "integer", nullable: false),
-                    media_type = table.Column<string>(type: "text", nullable: false),
+                    genre_ids = table.Column<int[]>(type: "integer[]", nullable: true),
+                    media_type = table.Column<string>(type: "text", nullable: true),
                     imdb_id = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Movies", x => x.Id);
                 });
-
-            migrationBuilder.CreateTable(
-                name: "Genres",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    name = table.Column<string>(type: "text", nullable: false),
-                    MoviesId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Genres", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Genres_Movies_MoviesId",
-                        column: x => x.MoviesId,
-                        principalTable: "Movies",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Genres_MoviesId",
-                table: "Genres",
-                column: "MoviesId");
         }
 
         /// <inheritdoc />

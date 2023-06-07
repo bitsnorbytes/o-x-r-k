@@ -25,11 +25,16 @@ using IHost host = Host.CreateDefaultBuilder(args)
     })
     .Build();
 var SculleryService = host.Services.GetService<SculleryX>();
-// var GenreList = await SculleryService.FetchGenreList("/3/genre/movie/list");
+var GenreList = await SculleryService.FetchGenreList("/3/genre/movie/list");
 var MovieIdList = await SculleryService.FetchProdListTMDB("/3/list/8253714");
+foreach (var Genre in GenreList.Genres)
+{
+    await SculleryService.SeedGenre(Genre);
+}
+
 foreach (var Movie in MovieIdList.Items)
 {
     var MovieDetails = await SculleryService.FetchMovieDetailsTMDB("/3/movie/" + Movie.Id);
-    await SculleryService.SeedDatabase(MovieDetails);
+    await SculleryService.SeedMovie(MovieDetails, Movie.GenreIds, Movie.MediaType);
 }
 await host.RunAsync();

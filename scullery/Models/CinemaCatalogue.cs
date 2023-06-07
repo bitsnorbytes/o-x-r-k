@@ -33,9 +33,10 @@ public class CinemaCatalogue
         [Column("runtime")]
         [JsonPropertyName("runtime")]
         public int RunTimeInMinutes { get; set; }
-        [JsonPropertyName("genres")]
-        [Column("genres")]
-        public IEnumerable<Genre> Genres { get; set; } = new List<Genre>();
+        [Column("genre_ids")]
+        public int[]? GenreIds { get; set; } 
+        [Column("media_type")]
+        public string? MediaType { get; set; } 
         [Column("imdb_id")]
         [JsonPropertyName("imdb_id")]
         public string imdbId { get; set; }
