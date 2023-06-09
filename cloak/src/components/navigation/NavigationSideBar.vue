@@ -3,7 +3,7 @@ import logoSVG from '@/components/icons/OXRKcloak.vue'
 </script>
 
 <template>
-     <div class="bg-oxrk-black w-1/12 h-screen">
+     <div class="fixed bg-oxrk-black w-1/12 h-screen">
           <ul class="list-none text-oxrk-grey h-full flex flex-col justify-items-center justify-between items-center">
                <li class="p-7">
                     <span class="hover:text-oxrk-white font-oxrk-title font-bold text-2xl tracking-[.5em] uppercase">oxrk</span>
@@ -32,6 +32,7 @@ import logoSVG from '@/components/icons/OXRKcloak.vue'
                </li>
           </ul>
      </div>
+     <div class="bg-oxrk-black w-1/12"></div>
 </template>
 
 <style scoped>
