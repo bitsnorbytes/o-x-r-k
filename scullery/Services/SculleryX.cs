@@ -84,20 +84,37 @@ namespace Scullery.Services
             await _cinemaCatalogingContext.SaveChangesAsync();
             }
         }
-        public async Task SeedMovieAsSync(CinemaCatalogue movieDetails, int[] genreIds, string mediaType, List<string> backdropSizes, List<string> posterSizes, string secureBaseImageUrl)
+        List<string> GetGenreNames(List<int> genreIds) {
+
+            List<string> genreNames = new List<string>();
+            
+            foreach(var genreId in genreIds)
+            {
+            genreNames.Add(_cinemaCatalogingContext.Genres.Single(e => e.Id == genreId).Name) ;
+            }
+            return genreNames;
+        }
+        string GetLanguageName(string OriginalLanguageCode) {
+
+            return _cinemaCatalogingContext.Languages.Single(e => e.iso639Code == OriginalLanguageCode).EnglishName;
+        }
+        public async Task SeedMovieAsSync(CinemaCatalogue movieDetails, List<int> genreIds, string mediaType, List<string> backdropSizes, List<string> posterSizes, string secureBaseImageUrl)
         {
-            var movieEntry = _cinemaCatalogingContext.Movies.Any(e => e.Id == movieDetails.Id);
-            if(movieEntry is false){
+            var IsMovieEntry = _cinemaCatalogingContext.Movies.Any(e => e.Id == movieDetails.Id);
+            
+            if(IsMovieEntry is false){
                 await _cinemaCatalogingContext.Movies.AddAsync(
                 new CinemaCatalogue
                 {
                     Id = movieDetails.Id,
                     BackdropPath = movieDetails.BackdropPath,
                     GenreIds = genreIds,
+                    GenreNames = GetGenreNames(genreIds),
                     MediaType = mediaType,
                     imdbId = movieDetails.imdbId,
                     IsAdult = movieDetails.IsAdult,
                     OriginalLanguage = movieDetails.OriginalLanguage,
+                    OriginalLanguageEnglishName = GetLanguageName(movieDetails.OriginalLanguage),
                     OriginalTitle = movieDetails.OriginalTitle,
                     Overview = movieDetails.Overview,
                     PosterPath = movieDetails.PosterPath,
@@ -110,7 +127,13 @@ namespace Scullery.Services
                 }
             );
             await _cinemaCatalogingContext.SaveChangesAsync();
-            }
+            } 
+            // else {
+            //     var movieEntry = _cinemaCatalogingContext.Movies.Single(e => e.Id == movieDetails.Id);
+            //     movieEntry.OriginalLanguageEnglishName = GetLanguageName(movieDetails.OriginalLanguage);
+            //     movieEntry.GenreNames = GetGenreNames(genreIds);
+            //     await _cinemaCatalogingContext.SaveChangesAsync();
+            // }
            
         }
     }

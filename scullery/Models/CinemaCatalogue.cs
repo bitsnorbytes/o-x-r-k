@@ -36,11 +36,15 @@ public class CinemaCatalogue
         [Column("original_language")]
         [JsonPropertyName("original_language")]
         public string OriginalLanguage { get; set; }
+        [Column("original_language_english_name")]
+        public string OriginalLanguageEnglishName { get; set; }
         [Column("runtime")]
         [JsonPropertyName("runtime")]
         public int RunTimeInMinutes { get; set; }
         [Column("genre_ids")]
-        public int[]? GenreIds { get; set; } 
+        public List<int>? GenreIds { get; set; } = new List<int>();
+        [Column("genre_names")]
+        public List<string>? GenreNames { get; set; }  = new List<string>();
         [Column("media_type")]
         public string? MediaType { get; set; } 
         [Column("imdb_id")]
