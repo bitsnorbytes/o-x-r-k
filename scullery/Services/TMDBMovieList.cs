@@ -20,7 +20,7 @@ namespace Scullery.Services
         [JsonPropertyName("id")]
         public int Id { get; set; }
         [JsonPropertyName("genre_ids")]
-        public int[]? GenreIds { get; set; }
+        public List<int>? GenreIds { get; set; } = new List<int>();
         [JsonPropertyName("media_type")]
         public string? MediaType { get; set; }
     }
