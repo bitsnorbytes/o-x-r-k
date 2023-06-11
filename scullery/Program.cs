@@ -27,51 +27,54 @@ using IHost host = Host.CreateDefaultBuilder(args)
 var SculleryService = host.Services.GetService<SculleryX>();
 async Task seedDatabaseAsSync()
 {
-    await UpdateGenreAsSync();
-    await UpdateLanguageAsSync();
-    await UpdateMoviesAsSync();
+    await AddGenreAsSync();
+    await AddLanguageAsSync();
+    await AddMoviesAsSync();
 }
-async Task UpdateGenreAsSync()
+async Task AddGenreAsSync()
 {
     var GenreList = await SculleryService.FetchGenreList();
     foreach (var _genre in GenreList.Genres)
     {
-        await SculleryService.SeedGenreAsSync(_genre);
+        await SculleryService.AddGenreAsSync(_genre);
     }
+    await SculleryService.SaveChangesAsSync();
 }
-async Task UpdateLanguageAsSync()
+async Task AddLanguageAsSync()
 {
     var TMDBLanguageConfiguration = await SculleryService.FetchLanguageConfigurationTMDB();
     foreach (var _language in TMDBLanguageConfiguration)
     {
-        await SculleryService.SeedLanguageAsSync(_language);
+        await SculleryService.AddLanguageAsSync(_language);
     }
+    await SculleryService.SaveChangesAsSync();
 }
-async Task UpdateMoviesAsSync()
+async Task AddMoviesAsSync()
 {
     var MovieIdList = await SculleryService.FetchProdListTMDB();
     var TMDBImageConfiguration = await SculleryService.FetchImageConfigurationTMDB();
     foreach (var Movie in MovieIdList.Items)
     {
         var MovieDetails = await SculleryService.FetchMovieDetailsTMDB(Movie.Id);
-        await SculleryService.SeedMovieAsSync(MovieDetails, Movie.GenreIds, Movie.MediaType, TMDBImageConfiguration.Images.BackdropSizes, TMDBImageConfiguration.Images.PosterSizes,TMDBImageConfiguration.Images.SecureBaseImageURL);
+        await SculleryService.AddMovieAsSync(MovieDetails, Movie.GenreIds, Movie.MediaType, TMDBImageConfiguration.Images.BackdropSizes, TMDBImageConfiguration.Images.PosterSizes,TMDBImageConfiguration.Images.SecureBaseImageURL);
     }
+    await SculleryService.SaveChangesAsSync();
 }
 if(args.Length == 0) {
-    await UpdateMoviesAsSync();
+    await AddMoviesAsSync();
 } else {
     switch(args[0]) {
         case "SeedDb": 
         await seedDatabaseAsSync();
         break;
         case "SeedGenre": 
-        await UpdateGenreAsSync();
+        await AddGenreAsSync();
         break;
         case "SeedLanguage":
-        await UpdateLanguageAsSync();
+        await AddLanguageAsSync();
         break;
         case "SeedMovie":
-        await UpdateMoviesAsSync();
+        await AddMoviesAsSync();
         break;
         default :
         Console.WriteLine("Cannot Recognize Argument. Use 'SeedDb' to seed entire Database");
