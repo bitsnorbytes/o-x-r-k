@@ -9,6 +9,7 @@
         <UpToDateCheckBuilt Include="tailwind.config.js" Set="Css" />
     </ItemGroup>
     <Target Name="Tailwind" BeforeTargets="Build">
-        <Exec Command="tailwindcss -i wwwroot/css/site.css -o wwwroot/css/granary.styles.css --minify"/>
+        <Exec Condition="!$([MSBuild]::IsOSUnixLike())" Command="tailwindcss -i wwwroot/css/site.css -o wwwroot/css/granary.styles.css --minify"/>
+        <Exec Condition="$([MSBuild]::IsOSUnixLike())" Command="./tailwindcss -i wwwroot/css/site.css -o wwwroot/css/granary.styles.css --minify"/>
     </Target>
 </Project>
