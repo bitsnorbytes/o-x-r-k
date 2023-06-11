@@ -1,4 +1,4 @@
-name: Deploy web app to Azure Static Web Apps
+name: DBuild & Deploy - Cloak
 
 env:
   APP_LOCATION: "cloak" # location of your client code
