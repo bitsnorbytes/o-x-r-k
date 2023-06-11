@@ -1,1 +1,1 @@
-Application to Sync idieMovie Events
+Application to Sync idieMovie Events.
