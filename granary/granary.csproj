@@ -1,15 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
+
   <ItemGroup>
-        <UpToDateCheckBuilt Include="wwwroot/css/site.css" Set="Css" />
-        <UpToDateCheckBuilt Include="tailwind.config.js" Set="Css" />
-    </ItemGroup>
-    <Target Name="Tailwind" BeforeTargets="Build">
-        <Exec Condition="!$([MSBuild]::IsOSUnixLike())" Command="tailwindcss -i wwwroot/css/site.css -o wwwroot/css/granary.styles.css --minify"/>
-        <Exec Condition="$([MSBuild]::IsOSUnixLike())" Command="./tailwindcss -i wwwroot/css/site.css -o wwwroot/css/granary.styles.css --minify"/>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.5" PrivateAssets="all" />
+  </ItemGroup>
+<Target Name="Tailwind" BeforeTargets="Build">
+        <Exec Condition="!$([MSBuild]::IsOSUnixLike())" Command="tailwindcss -i wwwroot/css/app.css -o wwwroot/granary.styles.css --minify"/>
+        <Exec Condition="$([MSBuild]::IsOSUnixLike())" Command="./tailwindcss -i wwwroot/css/app.css -o wwwroot/granary.styles.css --minify"/>
     </Target>
 </Project>
