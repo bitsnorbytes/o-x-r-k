@@ -1,11 +1,14 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./Pages/**/*.{razor,html,cshtml}",
-    "./Shared/**/*.{razor,html,cshtml}",
+    "./Pages/**/*.{razor,html,cshtml}"
 ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        'gy-body': ["Open Sans", "sans-serif"]
+      },
+    },
   },
   plugins: [
     require('@tailwindcss/forms'),

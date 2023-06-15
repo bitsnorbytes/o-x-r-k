@@ -1,11 +1,47 @@
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using granary;
+using Supabase;
+var builder = WebApplication.CreateBuilder(args);
 
-var builder = WebAssemblyHostBuilder.CreateDefault(args);
-builder.RootComponents.Add<App>("#app");
-builder.RootComponents.Add<HeadOutlet>("head::after");
+//Get Configuration
+var url = builder.Configuration["supabase:URL"];
+var key = builder.Configuration["supabase:KEY"];
+// Add services to the container.
+builder.Services.AddRazorPages();
+builder.Services.AddScoped<Supabase.Client>(
+	provider => new Supabase.Client(
+		url,
+		key,
+		new Supabase.SupabaseOptions
+		{
+			AutoRefreshToken = true,
+			AutoConnectRealtime = true,
+		}
+	)
+);
+builder.Services.AddSession(options =>
+{
+    options.Cookie.Name = ".Granary.Session";
+    options.IdleTimeout = TimeSpan.FromSeconds(10);
+    options.Cookie.IsEssential = true;
+});
+var app = builder.Build();
 
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error");
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
+}
 
-await builder.Build().RunAsync();
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseRouting();
+
+app.UseAuthorization();
+
+app.UseSession();
+
+app.MapRazorPages();
+
+app.Run();
