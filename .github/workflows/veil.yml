@@ -1,4 +1,4 @@
-name: DBuild & Deploy - Cloak
+name: DBuild & Deploy - Veil
 
 env:
   APP_LOCATION: "veil" # location of your client code
@@ -7,7 +7,7 @@ env:
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "feature/**" ]
     paths:
       - 'veil/**'
   pull_request:
@@ -15,7 +15,7 @@ on:
     branches:
       - main
     paths:
-      - 'cloak/**'
+      - 'veil/**'
 
 jobs:
   build_and_deploy_job:
