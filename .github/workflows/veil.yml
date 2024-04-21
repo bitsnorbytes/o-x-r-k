@@ -32,9 +32,9 @@ jobs:
           app_location: veil
           api_location: veil/build/server
           output_location: build/static
-        env:
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        # env:
+        #   SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+        #   SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
     runs-on: ubuntu-latest
