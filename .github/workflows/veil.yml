@@ -1,15 +1,15 @@
 name: DBuild & Deploy - Cloak
 
 env:
-  APP_LOCATION: "cloak" # location of your client code
-  API_LOCATION: "" # location of your api source code - optional
-  APP_ARTIFACT_LOCATION: "dist" # location of client code build output
+  APP_LOCATION: "veil" # location of your client code
+  API_LOCATION: "build/server" # location of your api source code - optional
+  APP_ARTIFACT_LOCATION: "build/static" # location of client code build output
 
 on:
   push:
     branches: [ "main" ]
     paths:
-      - 'cloak/**'
+      - 'veil/**'
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
@@ -36,10 +36,10 @@ jobs:
           action: "upload"
           app_location: ${{ env.APP_LOCATION }}
           api_location: ${{ env.API_LOCATION }}
-          app_artifact_location: ${{ env.APP_ARTIFACT_LOCATION }}
+          output_location: ${{ env.APP_ARTIFACT_LOCATION }}
         env:
-          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
-          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+          SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
@@ -55,5 +55,5 @@ jobs:
           app_location: ${{ env.APP_LOCATION }}
           action: "close"
         env:
-          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
-          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+          SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}

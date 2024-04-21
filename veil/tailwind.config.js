@@ -4,10 +4,10 @@ export default {
   theme: {
     extend: {},
     fontFamily: {
-      'display': ['"Noto Serif"', 'serif'],
-      'display-2': ['"Josefin Sans"', 'sans-serif'],
-      'body': ['"IBM Plex Sans"', 'sans-serif']
-    }
+      display: ['"Noto Serif"', "serif"],
+      "display-2": ['"Josefin Sans"', "sans-serif"],
+      body: ['"IBM Plex Sans"', "sans-serif"],
+    },
   },
   plugins: [],
 };

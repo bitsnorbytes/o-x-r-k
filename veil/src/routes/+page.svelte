@@ -1,13 +1,28 @@
+<script>
+  export let data;
+  let year = function dateParser(date) {
+    const parsedDate = new Date(date);
+    return parsedDate.getFullYear();
+  };
+</script>
 
-<div class="bg-slate-950 w-auto h-screen text-zinc-50">
-    <div class="flex flex-row justify-between">
-        <h1 class="font-display text-4xl font-medium tracking-widest mx-8">oxrk.</h1>
-        <ul class="font-display-2 text-xl list-none flex flex-row justify-end items-center mx-8">
-            <li class="mx-4">movies near you</li>
-            <li class="mx-4">film festivals</li>
-            <li class="mx-4">search</li>
-            <li class="mx-4">login / sign-up</li>
-          </ul>
-    </div>
-    
+<div class="bg-slate-900 px-4 text-zinc-50">
+  <ul class="grid list-none grid-cols-4 gap-4 font-display">
+    {#each data.movies as movie}
+      <li class="max-w-80">
+        <img
+          class="my-4"
+          src="{movie.secure_base_image_URL}/w342/{movie.poster_path}"
+          alt="official movie poster of {movie.title}"
+        />
+        <span class="text-2xl font-semibold">{movie.title}</span>
+        <div class="my-2 flex justify-between">
+          <span class="mr-3">{year(movie.release_date)}</span>
+          <span class="mr-3">{movie.runtime} mins</span>
+          <span class="mr-3">{movie.original_language_english_name}</span>
+        </div>
+        <div class="mb-4 mt-2 font-light">{movie.overview}</div>
+      </li>
+    {/each}
+  </ul>
 </div>
