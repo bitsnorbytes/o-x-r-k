@@ -2,7 +2,7 @@ name: UI build & deploy - Veil
 
 on:
   push:
-    branches: [ "main", "feature/**" ]
+    branches: [ "main" ]
     paths:
       - 'veil/**'
   pull_request:
