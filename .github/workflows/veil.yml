@@ -1,4 +1,4 @@
-name: DBuild & Deploy - Veil
+name: UI build & deploy - Veil
 
 env:
   APP_LOCATION: "veil" # location of your client code
