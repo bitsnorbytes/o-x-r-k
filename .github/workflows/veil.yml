@@ -30,7 +30,7 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
           app_location: veil
-          api_location: build/server
+          api_location: veil/build/server
           output_location: build/static
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
