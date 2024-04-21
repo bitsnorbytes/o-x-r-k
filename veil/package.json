@@ -26,5 +26,8 @@
   "type": "module",
   "dependencies": {
     "@supabase/supabase-js": "^2.42.5"
+  },
+  "engines": {
+    "node": ">=18.13 <19"
   }
 }
