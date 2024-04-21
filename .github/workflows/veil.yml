@@ -1,10 +1,5 @@
 name: UI build & deploy - Veil
 
-env:
-  APP_LOCATION: "veil" # location of your client code
-  API_LOCATION: "build/server" # location of your api source code - optional
-  APP_ARTIFACT_LOCATION: "build/static" # location of client code build output
-
 on:
   push:
     branches: [ "main", "feature/**" ]
@@ -34,9 +29,9 @@ jobs:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_SALMON_MUSHROOM_0C36B1310 }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          app_location: ${{ env.APP_LOCATION }}
-          api_location: ${{ env.API_LOCATION }}
-          output_location: ${{ env.APP_ARTIFACT_LOCATION }}
+          app_location: veil
+          api_location: veil/build/server
+          output_location: veil/build/static
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
     runs-on: ubuntu-latest
