@@ -1,4 +1,4 @@
-name: UI build & deploy - Veil
+name: veil build & deploy
 
 on:
   push:
