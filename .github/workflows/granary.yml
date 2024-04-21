@@ -1,0 +1,42 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: Build & Test - Granary
+
+on:
+  push:
+    branches: [ "main", "feature/*" ]
+    paths:
+      - 'granary/**'
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches: [ "main" ]
+    paths:
+      - 'granary/**'
+
+jobs:
+  
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup tailwind
+      shell: bash
+      run: |
+        curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-linux-x64
+        chmod +x tailwindcss-linux-x64
+        mv tailwindcss-linux-x64 tailwindcss
+      working-directory: granary
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 7.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+      working-directory: granary
+    - name: Build
+      run: dotnet build --no-restore
+      working-directory: granary
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+      working-directory: granary

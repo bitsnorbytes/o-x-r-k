@@ -1,6 +1,0 @@
-<template>
-<svg xmlns="http://www.w3.org/2000/svg" width="82" height="82" viewBox="0 0 82 82">
-  <circle id="Ellipse_1" data-name="Ellipse 1" cx="41" cy="41" r="41" fill="#242121"/>
-  <circle id="Ellipse_2" data-name="Ellipse 2" cx="6.5" cy="6.5" r="6.5" transform="translate(51 50)" fill="#de4949"/>
-</svg>
-</template>

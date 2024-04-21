@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Granary</title>
+    <link rel="stylesheet" href="~/Granary.styles.css" asp-append-version="true" />
+</head>
+<body class="flex flex-row">
+
+    <header class="w-1/12 h-screen bg-slate-900">
+    </header>
+    <div class="w-11/12 min-h-screen bg-slate-400 flex flex-column justify-center items-center">
+        @RenderBody()
+    </div>
+
+    
+    
+
+    @* <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2023 - Granary - <a asp-area="" asp-page="/Privacy">Privacy</a>
+        </div>
+    </footer> *@
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
