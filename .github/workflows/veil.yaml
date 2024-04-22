@@ -1,0 +1,33 @@
+name: Build & Deploy - Veil
+
+on: 
+ push: 
+   branches:
+      - main
+      - 'releases/**'
+      - 'feature/**'
+   paths:
+      - 'veil/**'
+
+jobs: 
+  build:
+    name: 'Build & Deploy'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Install NPM dependencies
+        run: npm install
+        working-directory: veil
+
+      - name: Build UI
+        run: npm run build
+        working-directory: veil
+      
+      - name: Deploy UI
+        run: swa deploy --deployment-token ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_CALM_MEADOW_00F1F9010 }}
+        working-directory: veil
+        if: github.ref == 'refs/heads/master'
