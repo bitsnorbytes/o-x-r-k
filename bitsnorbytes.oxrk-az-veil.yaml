@@ -10,7 +10,9 @@ stages:
   pool:  
     vmImage: ubuntu-latest
   jobs:
-    - job: 
+    - job: dev_job
+      strategy:
+        parallel: 0
       displayName: Build & Deploy
       steps:
         - task: AzureStaticWebApp@0
