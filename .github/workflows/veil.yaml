@@ -6,8 +6,8 @@ on:
       - main
       - 'releases/**'
       - 'feature/**'
-  #  paths:
-  #     - 'veil/**'
+   paths:
+      - 'veil/**'
 
 jobs: 
   build:
