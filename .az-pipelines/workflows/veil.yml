@@ -11,15 +11,15 @@ stages:
     vmImage: ubuntu-latest
   jobs:
     - job: 
-        displayName: Build & Deploy
-        steps:
-          - checkout: self
-            submodules: true
+      displayName: Build & Deploy
+      steps:
+        - checkout: self
+          submodules: true
 
-          - task: AzureStaticWebApp@0
-            inputs:
-              app_location: 'veil'
-              api_location: 'veil/build/server'
-              output_location: 'build/static'
-              azure_static_web_apps_api_token: $(deployment_token)
+        - task: AzureStaticWebApp@0
+          inputs:
+            app_location: 'veil'
+            api_location: 'veil/build/server'
+            output_location: 'build/static'
+            azure_static_web_apps_api_token: $(deployment_token)
       
