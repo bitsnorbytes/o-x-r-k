@@ -11,7 +11,7 @@ on:
 
 jobs: 
   build:
-    name: 'Build & Deploy'
+    name: 'Build - UI'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -20,9 +20,6 @@ jobs:
         with:
           node-version: '18'
      
-      - name: Install Az SWA CLI
-        run: npm install -g @azure/static-web-apps-cli
-
       - name: Install NPM dependencies
         run: npm install
         working-directory: veil
@@ -30,8 +27,32 @@ jobs:
       - name: Build UI
         run: npm run build
         working-directory: veil
-      
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: |
+            build
+            !build/**/*.md
+
+  deploy:
+    name: 'Deploy UI'
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+
+      - name: Install Az SWA CLI
+        run: npm install -g @azure/static-web-apps-cli
+
       - name: Deploy UI
         run: swa deploy --deployment-token ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_CALM_MEADOW_00F1F9010 }}
-        working-directory: veil
-        if: github.ref == 'refs/heads/main'
