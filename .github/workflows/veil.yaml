@@ -30,4 +30,4 @@ jobs:
       - name: Deploy UI
         run: swa deploy --deployment-token ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_CALM_MEADOW_00F1F9010 }}
         working-directory: veil
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/main'
