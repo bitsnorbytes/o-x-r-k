@@ -6,6 +6,8 @@ on:
       - main
       - 'releases/**'
       - 'feature/**'
+   paths:
+      - 'veil/**'
 
 jobs: 
   build:
@@ -15,7 +17,17 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '18'
-      - run: npm install -g @azure/static-web-apps-cli
-      - run: npm install
-      - run: swa build
-      - run: swa deploy --deployment-token ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_CALM_MEADOW_00F1F9010 }}
+      - name: Install Static Web Apps CLI
+        run: npm install -g @azure/static-web-apps-cli
+
+      - name: Install NPM dependencies
+        run: npm install
+        working-directory: veil
+
+      - name: Build UI
+        run: swa build
+        working-directory: veil
+
+      - name: Deploy UI
+        run: swa deploy --deployment-token ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_CALM_MEADOW_00F1F9010 }}
+        working-directory: veil
