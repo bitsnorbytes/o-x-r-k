@@ -33,9 +33,9 @@ jobs:
         with:
           name: dist
           path: |
-            build
-            !build/**/*.md
-        working-directory: veil
+            veil/build
+            !veil/build/**/*.md
+        
 
   deploy:
     name: 'Deploy UI'
