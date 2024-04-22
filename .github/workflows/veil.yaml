@@ -35,6 +35,7 @@ jobs:
           path: |
             build
             !build/**/*.md
+        working-directory: veil
 
   deploy:
     name: 'Deploy UI'
