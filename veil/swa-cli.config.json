@@ -3,8 +3,8 @@
   "configurations": {
     "veil": {
       "appLocation": ".",
-      "apiLocation": "build\\server",
-      "outputLocation": "build\\static",
+      "apiLocation": "build/server",
+      "outputLocation": "build/static",
       "apiLanguage": "node",
       "apiVersion": "16",
       "appBuildCommand": "npm run build",
