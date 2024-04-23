@@ -6,14 +6,14 @@
   };
 </script>
 
-<div class="overflow-auto bg-slate-900 px-4 text-zinc-50">
-  <ul class="grid list-none grid-cols-4 gap-4 font-display">
+<div class="overflow-auto bg-slate-900 pt-16 px-4 text-zinc-50">
+  <ul class="grid list-none grid-cols-1 md:grid-cols-4 justify-items-center	gap-4 font-display">
     {#each data.movies as movie}
       <li class="max-w-80">
         <img
-          class="my-4"
           src="{movie.secure_base_image_URL}/w342/{movie.poster_path}"
           alt="official movie poster of {movie.title}"
+          class="mb-2"
         />
         <span class="text-2xl font-semibold">{movie.title}</span>
         <div class="my-2 flex justify-between">
