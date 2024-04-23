@@ -20,7 +20,7 @@
     class="mx-8 flex flex-row items-center justify-end font-display-2 text-xl"
   >
     <a class="mx-4" href="/near-you">near you</a>
-    <a class="mx-4" href="/film-festivals">film festivals</a>
+    <a class="mx-4" href="/screenings">film festivals</a>
     <a class="mx-4" href="/search">search</a>
     <a class="mx-4" href="/login">login / sign-up</a>
   </nav>
