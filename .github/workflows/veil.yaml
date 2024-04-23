@@ -1,4 +1,4 @@
-name: Build & Deploy - Veil
+name: webUI - Build
 
 on: 
  push: 
