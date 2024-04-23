@@ -21,7 +21,7 @@
   >
     <a class="mx-4" href="/screenings">screenings</a>
     <a class="mx-4" href="/search">search</a>
-    <a class="mx-4" href="/login">login / sign-up</a>
+    <a class="mx-4" href="/login">login</a>
   </nav>
 </div>
 <slot />
