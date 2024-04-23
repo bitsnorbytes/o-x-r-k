@@ -10,18 +10,20 @@
     rel="stylesheet"
   />
 </svelte:head>
-<div
-  class="flex h-16 flex-row items-center justify-between bg-slate-950 text-zinc-50"
->
-  <h1 class="mx-8 font-display text-4xl font-medium tracking-widest">
+<div class="relative w-full text-zinc-50">
+<div class="fixed flex items-center top-0 w-full md:w-3/12 h-16 bg-slate-950">
+  <span class="mx-8 font-display text-4xl font-medium tracking-widest  ">
     <a href="/">oxrk.</a>
-  </h1>
+  </span>
+</div>
+<div class="fixed flex items-center justify-center md:justify-end bottom-0 md:top-0 md:right-0 w-full md:w-9/12 h-16 bg-slate-950">
   <nav
-    class="mx-8 flex flex-row items-center justify-end font-display-2 text-xl"
+    class="mx-8 flex  items-center justify-center font-display-2 text-xl"
   >
     <a class="mx-4" href="/screenings">screenings</a>
     <a class="mx-4" href="/search">search</a>
     <a class="mx-4" href="/login">login</a>
   </nav>
+</div>
 </div>
 <slot />
