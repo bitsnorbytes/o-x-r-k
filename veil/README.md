@@ -2,7 +2,7 @@
 
 ## UI of o-x-r-k.
 
-### Built with sveltekit & Azure Static Web Apps.
+### Built with sveltekit & Azure Static Web Apps(SWA).
 
 [![UI build & deploy - Veil](https://github.com/bitsnorbytes/o-x-r-k/actions/workflows/veil.yml/badge.svg?branch=main)](https://github.com/bitsnorbytes/o-x-r-k/actions/workflows/veil.yml)
 
