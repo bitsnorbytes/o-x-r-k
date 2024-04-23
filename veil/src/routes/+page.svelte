@@ -6,7 +6,7 @@
   };
 </script>
 
-<div class="bg-slate-900 px-4 text-zinc-50 overflow-auto">
+<div class="overflow-auto bg-slate-900 px-4 text-zinc-50">
   <ul class="grid list-none grid-cols-4 gap-4 font-display">
     {#each data.movies as movie}
       <li class="max-w-80">

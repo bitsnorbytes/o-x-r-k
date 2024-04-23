@@ -13,7 +13,9 @@
 <div
   class="flex h-16 flex-row items-center justify-between bg-slate-950 text-zinc-50"
 >
-  <h1 class="mx-8 font-display text-4xl font-medium tracking-widest"><a href="/">oxrk.</a></h1>
+  <h1 class="mx-8 font-display text-4xl font-medium tracking-widest">
+    <a href="/">oxrk.</a>
+  </h1>
   <nav
     class="mx-8 flex flex-row items-center justify-end font-display-2 text-xl"
   >
