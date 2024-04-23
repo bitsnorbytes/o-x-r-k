@@ -64,4 +64,4 @@ jobs:
           --api-language "node" \
           --api-version "18" \
           --deployment-token ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }} \
-          --name oxrk-web
+          -name oxrk-web
