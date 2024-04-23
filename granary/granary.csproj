@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>aa7cfccc-471b-4d16-ba9f-2631c0cb3d33</UserSecretsId>
@@ -11,8 +11,4 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.5" />
     <PackageReference Include="supabase-csharp" Version="0.11.1" />
   </ItemGroup>
-<Target Name="Tailwind" BeforeTargets="Build">
-        <Exec Condition="!$([MSBuild]::IsOSUnixLike())" Command="tailwindcss -i wwwroot/css/site.css -o wwwroot/granary.styles.css --minify" />
-        <Exec Condition="$([MSBuild]::IsOSUnixLike())" Command="./tailwindcss -i wwwroot/css/site.css -o wwwroot/granary.styles.css --minify" />
-    </Target>
 </Project>

@@ -1,20 +1,21 @@
 name: webUI - Build
 
-on: 
- push: 
-   branches:
+on:
+  push:
+    branches:
       - main
       - 'releases/**'
       - 'feature/**'
-   paths:
+    paths:
       - 'veil/**'
 
-jobs: 
+jobs:
   build:
     name: 'Build - UI'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
