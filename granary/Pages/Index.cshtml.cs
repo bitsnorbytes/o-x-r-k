@@ -58,7 +58,7 @@ public class IndexModel : PageModel
          HttpContext.Session.SetString(SessionAccessToken, StringNullChecker(session.AccessToken));
          HttpContext.Session.SetString(UserEmailConfirmationSent, DateNullChecker(session.User.ConfirmationSentAt));
          HttpContext.Session.SetString(UserEmailConfirmationReceived, DateNullChecker(session.User.ConfirmedAt));
-         HttpContext.Session.SetInt32(SessionKeyAge, session.ExpiresIn);
+         HttpContext.Session.SetInt32(SessionKeyAge, Convert.ToInt32(session.ExpiresIn));
          
        } catch (Exception err){
         
