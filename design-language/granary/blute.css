@@ -1,20 +1,9 @@
 /* Color Theme Swatches in Hex */
-.blute-1-hex { color: #348888; }
-.blute-2-hex { color: #22BABB; }
-.blute-3-hex { color: #9EF8EE; }
-.blute-4-hex { color: #FA7F08; }
-.blute-5-hex { color: #F24405; }
-
-/* Color Theme Swatches in RGBA */
-.blute-1-rgba { color: rgba(52, 136, 136, 1); }
-.blute-2-rgba { color: rgba(34, 186, 187, 1); }
-.blute-3-rgba { color: rgba(158, 248, 238, 1); }
-.blute-4-rgba { color: rgba(250, 127, 8, 1); }
-.blute-5-rgba { color: rgba(242, 68, 5, 1); }
-
-/* Color Theme Swatches in HSLA */
-.blute-1-hsla { color: hsla(180, 44, 36, 1); }
-.blute-2-hsla { color: hsla(180, 69, 43, 1); }
-.blute-3-hsla { color: hsla(173, 86, 79, 1); }
-.blute-4-hsla { color: hsla(29, 96, 50, 1); }
-.blute-5-hsla { color: hsla(15, 95, 48, 1); }
+.blute-100 { color: #fcfdfa; }
+.blute-200 { color: #f0c748; }
+.blute-300 { color: #1a120f; }
+.blute-400 { color: #5f4f20; }
+.blute-500 { color: #aa0105; }
+.blute-600 { color: #18290f; }
+.blute-700 { color: #feec79; }
+.blute-800 { color: #c79242; }
