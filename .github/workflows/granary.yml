@@ -78,4 +78,4 @@ jobs:
 
       - name: Deploy App
         run: |
-          swa deploy dist/wwwroot --deployment-token ${{ secrets.AZURE_SWA_GRANARY_TOKEN }} -name granary
+          swa deploy wwwroot --deployment-token ${{ secrets.AZURE_SWA_GRANARY_TOKEN }} -name granary
