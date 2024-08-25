@@ -56,6 +56,10 @@ jobs:
     needs: build
    #if: github.ref == 'refs/heads/main'
     steps:
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+        
       - name: 'Run Azure webapp deploy action using Azure Credentials'
         uses: azure/webapps-deploy@v3
         if: github.ref == 'refs/heads/main'
