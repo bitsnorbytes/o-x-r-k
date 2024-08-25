@@ -51,50 +51,50 @@ jobs:
         run: dotnet publish -c Release --property:PublishDir='${{ env.AZURE_WEBAPP_PACKAGE_PATH }}' 
         working-directory: ${{ env.AZURE_WEBAPP_NAME }}            
 
+      # - name: 'Azure Login'    
+      #   uses: azure/login@v1
+      #   with:
+      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
+          
+      # - name: 'Run Azure webapp deploy action using Azure Credentials'
+      #   uses: azure/webapps-deploy@v3
+      #   with: 
+      #     app-name: ${{ env.AZURE_WEBAPP_NAME }} # Replace with your app name
+      #     package: '${{ env.AZURE_WEBAPP_NAME }}/${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
+      
+      # - name: logout
+      #   run: |
+      #     az logout
+      - name: Zip artifact for deployment
+        run: zip deploy.zip ./* -r
+        working-directory: ${{ env.AZURE_WEBAPP_NAME }}/${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+        
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: webapp
+          path: ${{ env.AZURE_WEBAPP_NAME }}/${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/deploy.zip
+    
+  deploy:
+    name: 'Deploy'
+    runs-on: ubuntu-latest
+    needs: build
+   #if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: webapp
+          path: webapp
+
       - name: 'Azure Login'    
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-          
-      - name: 'Run Azure webapp deploy action using Azure Credentials'
-        uses: azure/webapps-deploy@v3
-        with: 
-          app-name: ${{ env.AZURE_WEBAPP_NAME }} # Replace with your app name
-          package: '${{ env.AZURE_WEBAPP_NAME }}/${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
-      
-      - name: logout
-        run: |
-          az logout
-      # - name: Zip artifact for deployment
-      #   run: zip deploy.zip ./* -r
-      #   working-directory: ${{ env.AZURE_WEBAPP_NAME }}/${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-        
-      # - name: Upload artifact
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: webapp
-      #     path: ${{ env.AZURE_WEBAPP_NAME }}/${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/deploy.zip
-    
-  # deploy:
-  #   name: 'Deploy'
-  #   runs-on: ubuntu-latest
-  #   needs: build
-  #  #if: github.ref == 'refs/heads/main'
-  #   steps:
-  #     - name: Download artifact
-  #       uses: actions/download-artifact@v4
-  #       with:
-  #         name: webapp
-  #         path: webapp
 
-  #     - name: 'Azure Login'    
-  #       uses: azure/login@v1
-  #       with:
-  #         creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-  #     - name: Deploy App
-  #       shell: bash
-  #       run: az webapp deploy --resource-group oxrk --name ${{ env.AZURE_WEBAPP_NAME }} --src-path webapp/deploy.zip --type zip --async true
+      - name: Deploy App
+        shell: bash
+        run: az webapp deploy --resource-group oxrk --name ${{ env.AZURE_WEBAPP_NAME }} --src-path webapp/deploy.zip --type zip
           
-  #     - name: 'Azure Logout'
-  #       run: az logout
+      - name: 'Azure Logout'
+        run: az logout
