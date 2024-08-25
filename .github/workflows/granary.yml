@@ -52,14 +52,14 @@ jobs:
         working-directory: ${{ env.AZURE_WEBAPP_NAME }}            
 
       - name: Zip artifact for deployment
-        run: zip ${{ env.AZURE_WEBAPP_NAME }}.zip ./* -r
+        run: zip deploy.zip ./* -r
         working-directory: ${{ env.AZURE_WEBAPP_NAME }}/${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
         
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: webapp
-          path: ${{ env.AZURE_WEBAPP_NAME }}/${{ env.AZURE_WEBAPP_NAME }}.zip
+          path: ${{ env.AZURE_WEBAPP_NAME }}/${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/deploy.zip
     
   deploy:
     name: 'Deploy'
