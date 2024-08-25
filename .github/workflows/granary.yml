@@ -10,9 +10,9 @@ on:
       - 'granary/**'
 env:
   AZURE_WEBAPP_NAME: granary
-  AZURE_WEBAPP_PACKAGE_PATH: '.'
+  AZURE_WEBAPP_PACKAGE_PATH: 'deploy'
   DOTNET_VERSION: '8.0.x'
-  
+
 jobs:
   build:
     name: 'Build & test'
@@ -50,13 +50,27 @@ jobs:
         run: dotnet publish -c Release --property:PublishDir='${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/${{ env.AZURE_WEBAPP_NAME }}' 
         working-directory: granary            
       
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: webapp
+          path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/${{ env.AZURE_WEBAPP_NAME }}
+          working-directory: granary
+    
   deploy:
     name: 'Deploy'
     runs-on: ubuntu-latest
     needs: build
    #if: github.ref == 'refs/heads/main'
     steps:
-      - uses: azure/login@v1
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: webapp
+          path: deploy-app
+
+      - name: 'Azure Login'    
+        uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
         
@@ -64,7 +78,7 @@ jobs:
         uses: azure/webapps-deploy@v3
         with: 
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/${{ env.AZURE_WEBAPP_NAME }}'
-      
-      - name: logout
+          package: 'deploy-app'
+          
+      - name: 'Azure Logout'
         run: az logout
