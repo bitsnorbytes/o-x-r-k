@@ -33,35 +33,34 @@ jobs:
           chmod +x tailwindcss-linux-x64
           mv tailwindcss-linux-x64 tailwindcss
           ./tailwindcss -i wwwroot/styles/site.css -o wwwroot/styles/app.css --minify
-        working-directory: granary
+        working-directory: ${{ env.AZURE_WEBAPP_NAME }}
         
       - name: Restore
         run: dotnet restore          
-        working-directory: granary
+        working-directory: ${{ env.AZURE_WEBAPP_NAME }}
 
       - name: Build
         run: dotnet build --no-restore --configuration Release
-        working-directory: granary
+        working-directory: ${{ env.AZURE_WEBAPP_NAME }}
         
       - name: Test
         run: dotnet test --no-build --verbosity normal
-        working-directory: granary
+        working-directory: ${{ env.AZURE_WEBAPP_NAME }}
 
       - name: Publish
         run: dotnet publish -c Release --property:PublishDir='${{ env.AZURE_WEBAPP_PACKAGE_PATH }}' 
-        working-directory: granary            
+        working-directory: ${{ env.AZURE_WEBAPP_NAME }}            
 
       - name: List files
         shell: bash
         run: ls -R
-        working-directory: granary
+        working-directory: ${{ env.AZURE_WEBAPP_NAME }}
         
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: webapp
-          path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-          working-directory: granary
+          path: ${{ env.AZURE_WEBAPP_NAME }}/${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
     
   deploy:
     name: 'Deploy'
