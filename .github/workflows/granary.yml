@@ -1,4 +1,4 @@
-name: listingApp - build & test
+name: Granary - build, test & deployment.
 
 on:
   push:
@@ -8,13 +8,26 @@ on:
       - 'feature/**'
     paths:
       - 'granary/**'
-
+env:
+  AZURE_WEBAPP_NAME: granary
+  AZURE_WEBAPP_PACKAGE_PATH: '.'
+  DOTNET_VERSION: '8.0.x'
+  
 jobs:
   build:
-    name: 'Build - listingApp'
+    name: 'Build, Test & Deploy - Granary'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }} 
 
       - name: Setup tailwind
         shell: bash
@@ -24,20 +37,29 @@ jobs:
           mv tailwindcss-linux-x64 tailwindcss
           ./tailwindcss -i wwwroot/styles/site.css -o wwwroot/styles/app.css --minify
         working-directory: granary
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: 8.0.x
-
-      - name: Restore dependencies
-        run: dotnet restore
+        
+      - name: Restore
+        run: dotnet restore          
         working-directory: granary
 
       - name: Build
-        run: dotnet build --no-restore
+        run: dotnet build --no-restore --configuration Release
         working-directory: granary
         
       - name: Test
         run: dotnet test --no-build --verbosity normal
         working-directory: granary
+
+      - name: Publish
+        run: dotnet publish -c Release --property:PublishDir='${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/${{ env.AZURE_WEBAPP_NAME }}' 
+        working-directory: granary
+
+      - name: 'Run Azure webapp deploy action using Azure Credentials'
+        uses: azure/webapps-deploy@v3
+        with: 
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/${{ env.AZURE_WEBAPP_NAME }}'
+      
+      - name: logout
+        run: |
+          az logout
