@@ -71,7 +71,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: webapp
-          path: deploy-app
+          path: webapp
 
       - name: 'Azure Login'    
         uses: azure/login@v1
@@ -80,7 +80,7 @@ jobs:
 
       - name: Deploy App
         shell: bash
-        run: az webapp deploy --resource-group oxrk --name ${{ env.AZURE_WEBAPP_NAME }} --src-path deploy-app/${{ env.AZURE_WEBAPP_NAME }}.zip --type zip --async true
+        run: az webapp deploy --resource-group oxrk --name ${{ env.AZURE_WEBAPP_NAME }} --src-path webapp/deploy.zip --type zip --async true
           
       - name: 'Azure Logout'
         run: az logout
