@@ -1,2 +1,2 @@
 ## granary  
-admin dashboard for o-x-r-k. 
+dashboard for particiapnts of o-x-r-k. 
