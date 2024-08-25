@@ -8,6 +8,7 @@ on:
       - 'feature/**'
     paths:
       - 'granary/**'
+      - '.github/workflows/granary.yml'
 env:
   AZURE_WEBAPP_NAME: granary
   AZURE_WEBAPP_PACKAGE_PATH: 'deploy'
@@ -47,14 +48,19 @@ jobs:
         working-directory: granary
 
       - name: Publish
-        run: dotnet publish -c Release --property:PublishDir='${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/${{ env.AZURE_WEBAPP_NAME }}' 
+        run: dotnet publish -c Release --property:PublishDir='${{ env.AZURE_WEBAPP_PACKAGE_PATH }}' 
         working-directory: granary            
-      
+
+      - name: List files
+        shell: bash
+        run: ls -R
+        working-directory: granary
+        
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: webapp
-          path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/${{ env.AZURE_WEBAPP_NAME }}
+          path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
           working-directory: granary
     
   deploy:
