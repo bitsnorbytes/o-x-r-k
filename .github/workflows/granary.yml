@@ -1,4 +1,4 @@
-name: listingApp - build & test
+name: Granary - build, test & deployment.
 
 on:
   push:
@@ -8,13 +8,23 @@ on:
       - 'feature/**'
     paths:
       - 'granary/**'
+      - '.github/workflows/granary.yml'
+env:
+  AZURE_WEBAPP_NAME: granary
+  AZURE_WEBAPP_PACKAGE_PATH: 'deploy'
+  DOTNET_VERSION: '8.0.x'
 
 jobs:
   build:
-    name: 'Build - listingApp'
+    name: 'Build & test'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }} 
 
       - name: Setup tailwind
         shell: bash
@@ -23,21 +33,44 @@ jobs:
           chmod +x tailwindcss-linux-x64
           mv tailwindcss-linux-x64 tailwindcss
           ./tailwindcss -i wwwroot/styles/site.css -o wwwroot/styles/app.css --minify
-        working-directory: granary
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: 8.0.x
-
-      - name: Restore dependencies
-        run: dotnet restore
-        working-directory: granary
+        working-directory: ${{ env.AZURE_WEBAPP_NAME }}
+        
+      - name: Restore
+        run: dotnet restore          
+        working-directory: ${{ env.AZURE_WEBAPP_NAME }}
 
       - name: Build
-        run: dotnet build --no-restore
-        working-directory: granary
+        run: dotnet build --no-restore --configuration Release
+        working-directory: ${{ env.AZURE_WEBAPP_NAME }}
         
       - name: Test
         run: dotnet test --no-build --verbosity normal
-        working-directory: granary
+        working-directory: ${{ env.AZURE_WEBAPP_NAME }}
+
+      - name: Publish
+        run: dotnet publish -c Release --property:PublishDir='${{ env.AZURE_WEBAPP_PACKAGE_PATH }}' 
+        working-directory: ${{ env.AZURE_WEBAPP_NAME }}
+    
+  # deploy:
+  #   name: 'Deploy'
+  #   runs-on: ubuntu-latest
+  #   needs: build
+  #  #if: github.ref == 'refs/heads/main'
+  #   steps:
+  #     - name: Download artifact
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: webapp
+  #         path: webapp
+
+  #     - name: 'Azure Login'    
+  #       uses: azure/login@v1
+  #       with:
+  #         creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+  #     - name: Deploy App
+  #       shell: bash
+  #       run: az webapp deploy --resource-group oxrk --name ${{ env.AZURE_WEBAPP_NAME }} --src-path webapp/deploy.zip --type zip
+          
+  #     - name: 'Azure Logout'
+  #       run: az logout
