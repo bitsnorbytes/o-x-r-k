@@ -10,11 +10,11 @@ on:
       - 'granary/**'
 env:
   AZURE_WEBAPP_NAME: granary
-  AZURE_WEBAPP_PACKAGE_PATH: '.'
+  AZURE_WEBAPP_PACKAGE_PATH: 'granary'
   DOTNET_VERSION: '8.0.x'
   
 jobs:
-  build:
+  build-and-deploy:
     name: 'Build, Test & Deploy - Granary'
     runs-on: ubuntu-latest
     steps:
@@ -61,5 +61,4 @@ jobs:
           package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/${{ env.AZURE_WEBAPP_NAME }}'
       
       - name: logout
-        run: |
-          az logout
+        run: az logout
